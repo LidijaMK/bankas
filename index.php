@@ -8,20 +8,6 @@ function accGenerator()
     return $accNo = 'LT3870440' . rand(10000000000, 99999999999);       
 }
 
-// function accGenerator($accounts) 
-// {  
-//     if ($accounts == null) {
-//         return $accNo = 'LT3870440' . rand(99999999998, 99999999999);
-//     } 
-//     $accNo = 'LT3870440' . rand(99999999998, 99999999999);
-//     foreach ($accounts as $account) {
-//         if ($accNo === $account['accountNo']) {
-//             return accGenerator($accounts);
-//          } 
-//         return $accNo;
-//     }    
-// }
-
 function validPersonalID($ak) 
 {
 $valid = false;
