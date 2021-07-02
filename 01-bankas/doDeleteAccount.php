@@ -4,10 +4,12 @@ foreach ($accounts as $index => $account) {
     if ($account['id'] == $id && $account['balance'] == 0) {
         unset($accounts[$index]);
         file_put_contents(__DIR__.'/saskaitos.json', json_encode($accounts));
-        setMessage('Sąskaita (id: ' .$account['id'] . ') sėkmingai ištrinta.');
+        setMessage('Sąskaita (id: ' .$account['id'] . ') sėkmingai ištrinta.', 'success');
+        setOld('balance', $account['balance']);
         redirect();
     } elseif ($account['id'] == $id && $account['balance'] > 0) {
-        setMessage('Sąskaitos, kurioje yra lėšų ištrinti negalima');
+        setMessage('Sąskaitos, kurioje yra lėšų ištrinti negalima', 'warning');
+        setOld('balance', $account['balance']);
         redirect();
     }  
 }

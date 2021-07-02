@@ -1,15 +1,13 @@
-<?php include __DIR__ . '/header.php' ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Sąskaitos</title>
 </head>
 <body>
-    
+<?php include __DIR__ . '/header.php' ?>   
     <div class="container">
         <?php include __DIR__ . '/msg.php' ?>
         <div class="row">
@@ -24,10 +22,8 @@
                             <th class="text-center" scope="col">Sąskaitos Nr.</th>
                             <th class="text-center" scope="col">Sąskaitos likutis, Eur</th>
                             <th class="text-center" scope="col"></th>
-                            <?php if (isset($_SESSION['logged'])) :?>
                             <th scope="col"></th>
                             <th scope="col"></th>
-                            <?php endif ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +41,6 @@
                             <td class="text-center"><?= $account['accountNo'] ?></td>
                             <td class="text-center"><?= $account['balance'] ?></td> 
                             <td class="text-center">
-                            <?php if (isset($_SESSION['logged'])) :?>
                             [<a href="?action=add&id=<?= $account['id'] ?>">Pridėti lėšas</a>]
                             </td>
                             <td class="text-center">
@@ -55,7 +50,6 @@
                             <form action="?action=delete&id=<?= $account['id'] ?>" method="post">
                             <button type="submit" class="btn btn-primary">Ištrinti sąskaitą</button>
                             </form>
-                            <?php endif ?>
                             </td>  
                         </tr>
                     <?php endforeach ?>    

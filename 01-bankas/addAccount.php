@@ -1,10 +1,3 @@
-<?php
-
-if (!isset($_SESSION['logged'])) {
-    header('Location: http://localhost/bankas/login.php');
-    die;
-}
-?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,19 +18,19 @@ if (!isset($_SESSION['logged'])) {
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Vardas</label>
                     <div class="col-sm-4">
-                        <input type="text" name="name" class="form-control">
+                        <input type="text" name="name" value="<?= $mas[1]['name'] ?? '' ?>" class="form-control">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Pavardė</label>
                     <div class="col-sm-4">
-                        <input type="text" name="surname" class="form-control">
+                        <input type="text" name="surname" value="<?= $mas[1]['surname'] ?? '' ?>" class="form-control">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Asmens kodas</label>
                     <div class="col-sm-4">
-                        <input type="text" name="personalId" class="form-control">
+                        <input type="text" name="personalId" value="<?= $mas[1]['personalId'] ?? '' ?>" class="form-control">
                     </div>
                 </div>
                 <div class="row mb-3">

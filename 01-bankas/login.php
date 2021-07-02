@@ -1,17 +1,18 @@
 <?php
+define('ENTER', true);
 require __DIR__ . '/bootstrap.php';
 
-session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['logout'])) {
         // 2. Atjungti vartotoją
         unset($_SESSION['logged'], $_SESSION['name']);
-        setMessage('Atsijungta');
-        header('Location: http://localhost/bankas');
+        setMessage('Atsijungta', 'success');
+        setOld('logout',$_GET['logout']);
+        header('Location: http://localhost/bankas/01-bankas/login.php');
         die;
     }
     // 1. Rodyti formą
-    
+
 } else {
     // 2. Tikrinti prisijungimo duomenis
     $users = json_decode(file_get_contents(__DIR__.'/users.json'), 1);
@@ -20,15 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             if ($user['passw'] == md5($_POST['passw'])) {
                 $_SESSION['logged'] = 1;
                 $_SESSION['name'] = $user['name'];
-                setMessage('Labas, ' . $user['name']);
-                header('Location: http://localhost/bankas/');
+                setMessage('Labas, ' . $user['name'], 'success');
+                setOld('name', $_POST['name']);
+                header('Location: http://localhost/bankas/01-bankas/');
                 die;
                 
             }
         }
     }
-    setMessage('Neteisingas vartotojo vardas arba slaptažodis');
-    header('Location: http://localhost/bankas/login.php');
+    setMessage('Neteisingas vartotojo vardas arba slaptažodis', 'danger');
+    header('Location: http://localhost/bankas/01-bankas/login.php');
     die;
 }
 ?>
@@ -50,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         </div>
         <div class="row">
             <div class="col-4">
-                <form action="http://localhost/bankas/login.php" method="post">
+                <form action="http://localhost/bankas/01-bankas/login.php" method="post">
                         <input type="text" name="name" placeholder="Vardas" class="form-control"><br>
                         <input type="password" name="passw" placeholder="Slaptažodis" class="form-control"><br>
                         <button class="btn btn-primary" type="submit">Prisijungti</button><br>

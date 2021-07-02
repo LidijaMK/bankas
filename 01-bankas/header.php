@@ -14,14 +14,13 @@
         <div class="navbar">
                 <a class="navbar-brand" href="#" style="margin-right:30px;"><img class="foto" src="./img/bank.png" alt="logo" height="40"></a>  
                 <nav class="nav justify-content-center">
-                    <a class="nav-link" href="http://localhost/bankas/">Sąskaitų sąrašas</a>
-                    <a class="nav-link" href="http://localhost/bankas/?action=add-account">Pridėti naują sąskaitą</a>
+                    <a class="nav-link" href="http://localhost/bankas/01-bankas/">Sąskaitų sąrašas</a>
+                    <a class="nav-link" href="http://localhost/bankas/01-bankas/?action=add-account">Pridėti naują sąskaitą</a>
                     <?php if (!isset($_SESSION['logged'])) : ?>  
-                    <a class="nav-link" href="http://localhost/bankas/login.php">Prisijungti</a>
+                    <a class="nav-link" href="http://localhost/bankas/01-bankas/login.php">Prisijungti</a>
                     <?php else : ?>
-                    <a class="nav-link" href="http://localhost/bankas/login.php?logout">Atsijungti</a>
+                    <a class="nav-link" href="http://localhost/bankas/01-bankas/login.php?logout">Atsijungti</a>
                     <?php endif ?>
                 </nav>
         </div>
     </header>
-

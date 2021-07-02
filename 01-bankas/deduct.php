@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +42,7 @@
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Suma, Eur</label>
                     <div class="col-sm-4">
-                        <input type="text" name="amount" class="form-control">
+                        <input type="text" name="amount" value="<?= $mas[1]['amount'] ?? ''?>" class="form-control">
                     </div>
                 </div>
                 <button class="btn btn-primary">Nuskaičiuoti lėšas</button>           
