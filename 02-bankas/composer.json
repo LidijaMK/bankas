@@ -1,0 +1,18 @@
+{
+    "name": "lkink/20",
+    "description": "Objektive Bank",
+    "authors": [
+        {
+            "name": "LidijaMK",
+            "email": "79445808+LidijaMK@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bank\\": "app",
+            "App\\DB\\": "app"
+        }
+    },
+    "require": {
+    }
+}

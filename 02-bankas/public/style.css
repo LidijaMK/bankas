@@ -1,0 +1,16 @@
+.container-fluid {
+    position: relative;
+}
+
+.container-fluid .navbar {
+    margin: 0 30px;
+
+}
+
+.container {
+    margin-top: 50px;
+}
+.nav-link {
+    color: white;
+    font-weight:500;
+}

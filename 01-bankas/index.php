@@ -38,7 +38,7 @@ function isValidName($name)
     }
 }
 
-// vienos sąskaitos struktūra: ['id' => 1, 'name' => 'Jonas', 'surname' => 'Jonaitis' 'accountNo' => 'LT12310000000000000000', 'personalNo' => '40003210000', 'balance' => '0']  ]
+// vienos sąskaitos struktūra: ['id' => 1, 'name' => 'Jonas', 'surname' => 'Jonaitis' 'accountNo' => 'LT12310000000000000000', 'personalNo' => '40003210000', 'balance' => '0']
 
 if (!file_exists(__DIR__. '/saskaitos.json')) 
 {

@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else {
     // 2. Tikrinti prisijungimo duomenis
     $users = json_decode(file_get_contents(__DIR__.'/users.json'), 1);
-    foreach ($users as $user) {
+    foreach ($users as &$user) {
         if ($user['name'] == $_POST['name']) {
             if ($user['passw'] == md5($_POST['passw'])) {
                 $_SESSION['logged'] = 1;
