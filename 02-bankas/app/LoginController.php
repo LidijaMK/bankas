@@ -2,30 +2,43 @@
 namespace Bank;
 
 class LoginController {
+    
+   private static $dbType = 'json';
+//    private static $dbType = 'maria';
+    
+   public static function getData()
+   {
+       if (self::$dbType == 'json') {
+           return Json::getJson();
+       }
+       if (self::$dbType == 'maria') {
+           return Maria::getMaria();
+       }
+   }    
 
     public function showLogin() 
     {
         return App::view('login');
     }
 
-    public function login()
-    {
-        $users = json_decode(file_get_contents(DIR.'/users.json'), 1);
-        foreach ($users as $user) {
-            if ($user['name'] == $_POST['name']) {
-                if ($user['passw'] == md5($_POST['passw'])) {
-                    $_SESSION['logged'] = 1;
-                    $_SESSION['name'] = $user['name'];
-                    Messages::setMessage('Sveiki, ' . $user['name'], 'success');
-                    Messages::setOld('name', $_POST['name']);
-                    App::redirect();
-                }
-            } 
-        }
-        Messages::setMessage('Neteisingas vartotojo vardas arba slaptažodis', 'danger');
-        App::redirect('login');
-    }
+    public function doLogin()
+    { 
+        $name = $_POST['name'];
+        $passw = md5($_POST['passw']);
 
+        $user = self::getData()->getUser($name, $passw);
+
+        if (empty($user)){
+            Messages::setMessage('Neteisingas vartotojo vardas arba slaptažodis', 'danger');
+            App::redirect('login');
+        }
+        $_SESSION['logged'] = 1;
+        $_SESSION['name'] = $user;
+        Messages::setMessage('Sveiki, ' . $name, 'success');
+        Messages::setOld('name', $_POST['name']);
+        App::redirect();
+    }
+    
     public function logout()
     {
         unset($_SESSION['logged'], $_SESSION['name']);

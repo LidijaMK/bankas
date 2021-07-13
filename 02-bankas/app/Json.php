@@ -6,6 +6,7 @@ class Json implements DataBase {
 
     private $data;
     private static $obj;
+    private $users;
 
     public static function getJson() 
     {
@@ -66,5 +67,18 @@ class Json implements DataBase {
     public function showAll() : array
     {
         return $this->data; 
+    }
+
+    public function getUser(string $name, string $passw) : array
+    {
+        $this->users = json_decode(file_get_contents(DIR.'/users.json'), 1);
+        foreach ($this->users as $index => $user) {
+            if ($user['name'] == $name) {
+                if ($user['passw'] == $passw){
+                    return $this->users[$index];
+                }
+            }
+            return $this->users = [];
+        }
     }
 }

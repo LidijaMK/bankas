@@ -27,6 +27,18 @@ class App {
         die;
     }
 
+    public static function accGenerator()
+    {
+        return 'LT3870440' . rand(10000000000, 99999999999);
+    }
+
+    public static function checkLogin() 
+    {
+        if (!isset($_SESSION['logged'])) {
+            self::redirect('login');
+        }
+    }
+
     private static function router() 
     {
         // $uri = str_replace(INSTALL_DIR, '', $_SERVER['REQUEST_URI']);
@@ -34,7 +46,23 @@ class App {
         $uri = explode('/', $uri);
         array_shift($uri);
 
+        if ('login' == $uri[0]) {
+            if ('GET' == $_SERVER['REQUEST_METHOD']) {
+                return (new LoginController)->showLogin();
+            } 
+            else {
+                return (new LoginController)->doLogin();
+            }
+        }
+       
+        if ('logout' == $uri[0]) {
+            if ('GET' == $_SERVER['REQUEST_METHOD']) {
+                return (new LoginController)->logout();
+            }
+        }
+
         if ('create-account' == $uri[0]) {
+            self::checkLogin();
             if ('GET' == $_SERVER['REQUEST_METHOD']) {
                 return (new SaskaitosController)->create();
             }
@@ -44,6 +72,7 @@ class App {
         }
 
         if ('add' == $uri[0] && isset($uri[1])) {
+            self::checkLogin();
             if ('GET' == $_SERVER['REQUEST_METHOD']) {
                 return (new SaskaitosController)->add($uri[1]);
             }
@@ -53,6 +82,7 @@ class App {
         }
 
         if ('deduct' == $uri[0] && isset($uri[1])) {
+            self::checkLogin();
             if ('GET' == $_SERVER['REQUEST_METHOD']) {
                 return (new SaskaitosController)->deduct($uri[1]);
             }
@@ -62,30 +92,12 @@ class App {
         }
                 
         if ('delete' == $uri[0] && isset($uri[1]) && 'POST' == $_SERVER['REQUEST_METHOD']) {
+            self::checkLogin();
             return (new SaskaitosController)->delete($uri[1]);
-        }
+        }      
 
         if ($uri[0] === '' && count($uri) === 1) {
             return (new SaskaitosController)->index();
-        }
-
-        // LOGIN
-
-        if ('login' == $uri[0]) {
-            if ('GET' == $_SERVER['REQUEST_METHOD']) {
-                return (new LoginController)->showLogin();
-            } 
-            return (new LoginController)->login();
-        }
-       
-        if ('logout' == $uri[0]) {
-            if ('GET' == $_SERVER['REQUEST_METHOD']) {
-                return (new LoginController)->logout();
-            }
-        }
-
-        if (!isset($_SESSION['logged'])) {
-            return (new LoginController)->showLogin();
         }
         self::view('404');
         http_response_code(404);

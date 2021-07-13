@@ -3,20 +3,33 @@ namespace Bank;
 
 class SaskaitosController {
 
+    // private static $dbType = 'json';
+    private static $dbType = 'maria';
+    
+    public static function getData()
+    {
+        if (self::$dbType == 'json') {
+            return Json::getJson();
+        }
+        if (self::$dbType == 'maria') {
+            return Maria::getMaria();
+        }
+    } 
+
     public function index() 
     {
-        return App::view('index', ['accounts' =>  Json::getJson()->showAll()]);
+        return App::view('index', ['accounts' =>  self::getData()->showAll()]);
     }
 
     public function add($id)
     {
-        return App::view('add', ['id' =>$id, 'accounts' => Json::getJson()->showAll()]);
+        return App::view('add', ['id' =>$id, 'accounts' => self::getData()->showAll()]);
     }
 
     public function doAdd($id)
     {
         $id = (int) $id;
-        $account = Json::getJson()->show($id);
+        $account = self::getData()->show($id);
         $amount = $_POST['amount'];
         if (!is_numeric($_POST['amount'])) {
             $searchForVal = ',';
@@ -40,19 +53,19 @@ class SaskaitosController {
             Messages::setMessage('Sąskaita (id: ' . $account['id'] . ') papildyta ' . $amount . ' Eur', 'success');
             Messages::setOld('amount', $_POST['amount']);
         }
-        Json::getJson()->update($id, $account);
+        self::getData()->update($id, $account);
         App::redirect();
     }
 
     public function deduct($id)
     {
-        return App::view('deduct', ['id' =>$id, 'accounts' => Json::getJson()->showAll()]);
+        return App::view('deduct', ['id' =>$id, 'accounts' => self::getData()->showAll()]);
     }
 
     public function doDeduct($id)
     {
         $id = (int) $id;
-        $account = Json::getJson()->show($id);
+        $account = self::getData()->show($id);
         $amount = $_POST['amount'];
         if (!is_numeric($_POST['amount'])) {
             $searchForVal = ',';
@@ -81,16 +94,16 @@ class SaskaitosController {
             Messages::setMessage('Iš sąskaitos (id: ' . $account['id'] . ') nuskaičiuota ' . $amount . ' Eur', 'success');
             Messages::setOld('amount', $_POST['amount']);
         }
-        Json::getJson()->update($id, $account);
+        self::getData()->update($id, $account);
         App::redirect();
     }
 
     public function delete($id)
     {
         $id = (int) $id;
-        $account = Json::getJson()->show($id);
+        $account = self::getData()->show($id);
         if ($account['id'] == $id && $account['balance'] == 0) {
-            Json::getJson()->delete($id);
+            self::getData()->delete($id);
             Messages::setMessage('Sąskaita (id: ' .$account['id'] . ') sėkmingai ištrinta', 'success');
             Messages::setOld('balance', $account['balance']);
             App::redirect();
@@ -133,7 +146,7 @@ class SaskaitosController {
             Messages::setOld('personalId', $_POST['personalId']); 
         } 
         if (Validator::isValidPersonalID($_POST['personalId'])) {
-            $accounts = Json::getJson()->showAll();
+            $accounts = self::getData()->showAll();
             foreach ($accounts as $account) {
                 if ($account['personalId'] == $_POST['personalId']) {
                     Messages::setMessage('Naujos sąskaitos pridėti nepavyko, toks asmens kodas jau yra', 'danger');
@@ -155,8 +168,8 @@ class SaskaitosController {
                 'balance' => 0 
             ];
             
-            Json::getJson()->create($account);
-            Messages::setMessage('Nauja sąskaita sėkmingai pridėta, sąskaitos id: ' . $account['id'], 'success');
+            self::getData()->create($account);
+            Messages::setMessage('Nauja sąskaita sėkmingai pridėta. Saskaitos Nr.: ' .$accout['id'], 'success');
             App::redirect();
         } 
         else {

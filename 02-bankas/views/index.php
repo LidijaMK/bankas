@@ -1,8 +1,3 @@
-<?php 
-if (!isset($_SESSION['logged'])) {
-    Bank\App::redirect('login');
-}
-?>
 <?php require DIR. 'views/top.php' ?>
 <?php require DIR. 'views/header.php' ?>
 <div class="container" style="margin-top: 50px;">
@@ -24,11 +19,6 @@ if (!isset($_SESSION['logged'])) {
                         </tr>
                     </thead>
                     <tbody>
-                <?php
-                    usort($accounts, function($a, $b) {
-                        return $a['surname'] <=> $b['surname']; 
-                    });
-                ?>
                     <?php foreach ($accounts as $account) : ?>
                         <tr>
                             <th class="table-primary text-center" scope="row"><?= $account['id'] ?></th>

@@ -1,8 +1,3 @@
-<?php 
-if (!isset($_SESSION['logged'])) {
-    Bank\App::redirect('login');
-}
-?>
 <?php require DIR. 'views/top.php' ?>
 <?php require DIR. 'views/header.php' ?>
 <div class="container">
@@ -33,7 +28,7 @@ if (!isset($_SESSION['logged'])) {
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Sąskaitos numeris</label>
                 <div class="col-sm-4">
-                    <input type="text" name="accountNo" value="<?= 'LT3870440' . rand(10000000000, 99999999999) ?>" readonly class="form-control">
+                    <input type="text" name="accountNo" value="<?= Bank\App::accGenerator() ?>" readonly class="form-control">
                 </div>
             </div>
             <button class="btn btn-primary">Pridėti sąskaitą</button>
