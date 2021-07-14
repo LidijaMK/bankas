@@ -42,7 +42,7 @@ class SaskaitosController {
             Messages::setOld('amount', $_POST['amount']);
             App::redirect('add', $id);
         } 
-        elseif ($amount < 0) {
+        elseif ($amount <= 0) {
             Messages::setMessage('Lėšų pridėti nepavyko: neigiamos pinigų sumos pridėti negalima', 'warning');
             Messages::setOld('amount', $_POST['amount']);
             App::redirect('add', $id);
@@ -120,7 +120,7 @@ class SaskaitosController {
     }
 
     public function save() 
-    {
+    { 
         if (!(Validator::isValidName($_POST['name']))) {
             Messages::setMessage('Naujos sąskaitos pridėti nepavyko, klaidingas kliento vardas', 'danger');
             Messages::setOld('name', $_POST['name']);
@@ -145,18 +145,17 @@ class SaskaitosController {
         else {
             Messages::setOld('personalId', $_POST['personalId']); 
         } 
+
         if (Validator::isValidPersonalID($_POST['personalId'])) {
-            $accounts = self::getData()->showAll();
-            foreach ($accounts as $account) {
-                if ($account['personalId'] == $_POST['personalId']) {
+            $personalId = $_POST['personalId'];
+                if (self::getData()->getPersonalId($personalId)) {
+                    Messages::setOld('personalId', $_POST['personalId']);
+                } 
+                else {
                     Messages::setMessage('Naujos sąskaitos pridėti nepavyko, toks asmens kodas jau yra', 'danger');
                     Messages::setOld('personalId', $_POST['personalId']);
                     $err = true;
-                } 
-                else {
-                    Messages::setOld('personalId', $_POST['personalId']);
                 }  
-            } 
         } 
         if (!isset($err)){
             $account = [
@@ -168,8 +167,10 @@ class SaskaitosController {
                 'balance' => 0 
             ];
             
-            self::getData()->create($account);
-            Messages::setMessage('Nauja sąskaita sėkmingai pridėta. Saskaitos Nr.: ' .$accout['id'], 'success');
+           self::getData()->create($account);
+
+           
+            Messages::setMessage('Nauja sąskaita sėkmingai pridėta, klientas: ' . $account['name'] .' ' . $account['surname'] . ' , sąskaitos Nr. ' . $account['accountNo'], 'success');
             App::redirect();
         } 
         else {

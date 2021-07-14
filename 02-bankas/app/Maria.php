@@ -107,4 +107,18 @@ class Maria implements DataBase {
         $user = $stmt->fetch();
         return false === $user ? [] : $user;
     }
+
+    public function getPersonalId($personalId) : bool
+    {
+        $sql = 
+        "SELECT *
+        FROM accounts
+        WHERE personal_no = ?
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$personalId]);
+        $account = $stmt->fetch();
+        return false === $account ? true : false;
+    }
 }

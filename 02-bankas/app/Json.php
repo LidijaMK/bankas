@@ -81,4 +81,15 @@ class Json implements DataBase {
             return $this->users = [];
         }
     }
+
+    public function getPersonalId(int $personalId) : bool
+    {
+        $counter = []; // veikia kaip Set'as
+        $counter[$personalId] = null;
+        foreach($this->data as $account) {
+            $counter[ $account['personalId'] ] = null;
+        }
+        return count($counter) !== count($this->data) ? true : false;
+    }
+
 }
